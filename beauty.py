@@ -1,17 +1,19 @@
+# coding=UTF-8
 from urllib import request
 from bs4 import  BeautifulSoup
 import re
 import time
 import sqlite3
-
+import requests
 
 def UpdateBeauty():
+    r = requests.Session()
     print("start")
     root="https://www.ptt.cc"
     beauty="https://www.ptt.cc/bbs/Beauty/index.html"
 
-    respond=request.urlopen(beauty).read()
-
+    #respond=request.urlopen(beauty).read()
+    respond=r.post(beauty).text
     respond=BeautifulSoup(respond, "html.parser")
     page=respond.find_all(class_="btn wide")
     page=int(re.search(pattern=".*index(.*).html",string=page[1]['href']).group(1))
@@ -37,12 +39,15 @@ def UpdateBeauty():
     page=page+1
     #開始撈資料
     for i in range(int(preSotre),int(page)):
-        time.sleep(1)
+        time.sleep(5)
 
         urlObj=[]
-        beautyData=open("beautyData.txt","a")
+        b=requests.session()
+        #beautyData=open("beautyData.txt","a")
         print("status crawel page"+str(i))
-        respond=request.urlopen("https://www.ptt.cc/bbs/Beauty/index"+str(i)+".html").read()
+
+        #respond=request.urlopen("https://www.ptt.cc/bbs/Beauty/index"+str(i)+".html").read()
+        respond=b.post("https://www.ptt.cc/bbs/Beauty/index"+str(i)+".html").text
         respond=BeautifulSoup(respond, "html.parser")
 
 
@@ -54,9 +59,10 @@ def UpdateBeauty():
                 continue
         imgList=[]
         for p in urlObj:
+            k=requests.session()
 
             try:
-                img=request.urlopen(p).read()
+                img=k.post(p).text
             except:
                 print("be block, wait for reconnect ")
 
@@ -71,7 +77,7 @@ def UpdateBeauty():
                 #if(re.search(pattern=".*imgur.*",string=b.get_text())!=None):
                 if(re.search(pattern=".*\.(jpg|gif|png)",string=b.get_text(),flags=re.I)!=None):
                     imgList.append(b['href'])
-                    beautyData.write(b['href']+"\n")
+                    #beautyData.write(b['href']+"\n")
 
                     try:
                         curs.execute("insert into beauty(link) values(?)",(b['href'],))

@@ -1,3 +1,4 @@
+# coding=UTF-8
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import urllib.request, urllib.parse, urllib.error
 from bs4 import BeautifulSoup
@@ -112,6 +113,7 @@ def main():
 
     # pass the token
     # updater = Updater("118322299:AAGs7WMxAJCqKfS9CmUHE6X9SwGqtb3P6YM")
+
     key=os.environ['whitebot']
     updater = Updater(key)
 
