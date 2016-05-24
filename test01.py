@@ -6,6 +6,7 @@ import re
 import random
 import sqlite3
 from beauty import UpdateBeauty
+from kodomo import UpdateKodomo,kodomo
 import os
 
 
@@ -26,6 +27,18 @@ def updateBeauty(bot, update):
         bot.sendMessage(update.message.chat_id, text='I am sorry, but my ip is ban, please wait and try it again')
         return
     bot.sendMessage(update.message.chat_id, text='update beauty finish')
+
+
+def updateKodomo(bot, update):
+    bot.sendMessage(update.message.chat_id, text='start to update database')
+    try:
+        UpdateKodomo()
+    except:
+        bot.sendMessage(update.message.chat_id, text='I am sorry, but my ip is ban, please wait and try it again')
+        return
+    bot.sendMessage(update.message.chat_id, text='update kodomo finish')
+
+
 def sing(bot, update):
     bot.sendMessage(update.message.chat_id, text='Send them to the slguhterhouse')
     bot.sendMessage(update.message.chat_id, text='Breeeeeeeeeeeeeeeee')
@@ -72,8 +85,9 @@ def beauty(bot, update):
 
 
 def photoTest(bot,update):
-    bot.sendPhoto(update.message.chat_id,"http://static.ettoday.net/images/1387/d1387895.jpg")
-    bot.sendVideo(update.message.chat_id,"https://youtu.be/K7E3Aw4brMM")
+    #bot.sendPhoto(update.message.chat_id,"http://static.ettoday.net/images/1387/d1387895.jpg")
+    bot.sendPhoto(update.message.chat_id,"https://i.imgur.com/JgBnyWk.jpg")
+    #bot.sendVideo(update.message.chat_id,"https://youtu.be/K7E3Aw4brMM")
 
 
 def handsome(bot,update):
@@ -83,6 +97,8 @@ def handsome(bot,update):
 def google(bot,update):
     print(update.message.text[8:])
     q=update.message.text[8:]
+    #q=q.replace(' ','+')
+    q=urllib.parse.quote(q)
     url = "https://www.google.com.tw/search?q=" + q + "&start=0"
 
     req = urllib.request.Request(url)
@@ -126,8 +142,10 @@ def main():
     disp.addHandler(CommandHandler("photoTest",photoTest))
     disp.addHandler(CommandHandler("google",google))
     disp.addHandler(CommandHandler("beauty",beauty))
+    disp.addHandler(CommandHandler("kodomo", kodomo))
     disp.addHandler(CommandHandler("Ubeauty",updateBeauty))
-    disp.addHandler(MessageHandler([Filters.text],handsome))
+    disp.addHandler(CommandHandler("Ukodomo", updateKodomo))
+    # disp.addHandler(MessageHandler([Filters.text],handsome))
 
     updater.start_polling()
 
