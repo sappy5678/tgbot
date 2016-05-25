@@ -8,7 +8,7 @@ import sqlite3
 from beauty import UpdateBeauty
 from kodomo import UpdateKodomo,kodomo
 import os
-
+from Wmeeting import *
 
 def start(bot, update):
     bot.sendMessage(update.message.chat_id, text='Yes Master, what can I do for you?')
@@ -145,6 +145,7 @@ def main():
     disp.addHandler(CommandHandler("kodomo", kodomo))
     disp.addHandler(CommandHandler("Ubeauty",updateBeauty))
     disp.addHandler(CommandHandler("Ukodomo", updateKodomo))
+    disp.addHandler(CommandHandler("createMeeting", sentMeeting))
     # disp.addHandler(MessageHandler([Filters.text],handsome))
 
     updater.start_polling()

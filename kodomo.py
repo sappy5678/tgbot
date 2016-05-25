@@ -95,7 +95,7 @@ def UpdateKodomo():
 #UpdateBeauty()
 
 def kodomo(bot, update):
-    if(update['message']['from_user']['username']!='sappy5678'):
+    if(update['message']['from_user']['username']!='sappy5678' and update['message']['from_user']['username']!='kaiyeee'):
         bot.sendMessage(update.message.chat_id, text="sorry you don't have the authority")
         return
     conn = sqlite3.connect('DB/kodomo.db')
